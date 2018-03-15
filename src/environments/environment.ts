@@ -6,3 +6,8 @@
 export const environment = {
   production: false
 };
+
+
+export const links = {
+  addresses: 'http://el-grocer-staging-dev.herokuapp.com/api/v1/shopper_addresses.json'
+}
