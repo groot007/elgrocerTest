@@ -1,0 +1,35 @@
+<div class="full-header">
+
+  <header id="header-top" class="header-top" stickyHeader>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs">
+          <a routerLink="/" title="el Grocer" class="site-logo">
+            <img src=" /assets/img/site-logo.png" alt="el Grocer">
+          </a>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+          <app-stores-popup></app-stores-popup>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8 text-center text-sm-right">
+          <button class="button button-blank map margin-top-10 map margin-top-xs"><span class="map-icon"></span> {{
+            address }}
+          </button>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs text-right account">
+          <div class="row">
+            <button class="button button-blank map margin-top-10"><span class="account-icon"></span>Account</button>
+          </div>
+        </div>
+        <app-basket></app-basket>
+      </div>
+    </div>
+  </header>
+
+
+  <app-carousel></app-carousel>
+  <app-navigation></app-navigation>
+  <app-categories></app-categories>
+
+  <app-footer></app-footer>
+</div>

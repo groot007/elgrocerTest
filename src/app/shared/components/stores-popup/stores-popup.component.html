@@ -1,0 +1,67 @@
+<div class="stores" >
+  <div class="row" [class.open]="isOpened">
+    <button (click)="showStores()" class="button button-blank stores margin-top-10 margin-top-xs hidden-sm hidden-xs"
+            type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span
+      class="stores-icon"></span> Stores
+    </button>
+    <a href="stores.html" class="button button-blank stores margin-top-10 margin-top-xs hidden-lg hidden-md"> <span
+      class="stores-icon"></span> Stores</a>
+    <div class="hidden-sm hidden-xs dropdown-menu stores-dropdown" aria-labelledby="dropdownMenu2" id="dropdownMenu2">
+      <div class="popup-header text-center">
+        <div class="popup-icon"></div>
+        <h3>{{ address }}</h3>
+        <div class="popup-location"><h3 class="text-success">Change Location</h3></div>
+        <a (click)="showStores()" aria-label="Close" data-dismiss="alert" class="popup-close"></a>
+      </div>
+      <div class="stores-list">
+        <div class="available-store"> Available Stores</div>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-12" *ngFor="let store of stores; let i = index;">
+              <div class="row">
+                <div class="store-grid">
+                  <div *ngIf="store['_details-opened'] === undefined || store['_details-opened'] === true"
+                       (click)="setCurrentStore(store, store['is_opened'])" class="store-box">
+                    <div class="store-brand">
+                      <a class="store-info" (click)="store['_details-opened'] = false"></a>
+                      <img style="max-width: 100%;" src="{{ store['photo_url'] }}" alt="brand">
+                    </div>
+                    <div class="store-detail">
+                      <h4 class="text-black">{{ store['company_name'] }}</h4>
+                      <h5>{{store['is_opened'] ? 'Open' : 'Close'}} now</h5>
+                      <span
+                        class="text-success-light">Scheduled delivery {{store['is_schedule'] ? '' : 'not '}} allowed</span>
+                    </div>
+                  </div>
+                  <div *ngIf="store['_details-opened'] === false" class="store-detail store-method">
+                    <a class="store-detail-info" (click)="store['_details-opened'] = true"></a>
+                    <h4 class="text-black">{{store['company_name']}}</h4>
+                    <ul>
+                      <li>
+                        <h6>Min order amount</h6>
+                        <span>{{ store['retailer_delivery_zone']['min_basket_value'] }} AED</span>
+                      </li>
+                      <li>
+                        <h6>Delivery within</h6>
+                        <span>2 hours</span>
+                      </li>
+                      <li>
+                        <h6>Delivery hours</h6>
+                        <span>8AM - 10PM</span>
+                      </li>
+                      <li>
+                        <h6>Payment method</h6>
+                        <span>{{ getPaymentMethod(store['available_payment_types']) }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

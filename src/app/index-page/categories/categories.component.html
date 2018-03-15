@@ -1,0 +1,18 @@
+<section id="content" class="content">
+  <div class="container">
+    <div class="row">
+      <h2 class="text-center text-black">Categories</h2>
+      <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12" *ngFor = "let item of categories">
+        <div class="category-grid">
+          <h3 class="text-black">{{ item.name }}</h3>
+          <span class="category-bg" [style.background-image] = "getBackground(item.logo1_url)"> </span>
+          <ul>
+            <li>{{ item.description }}</li>
+          </ul>
+          <a href="sub-categories.html" class="view-more hidden-xs text-success">View More</a>
+        </div>
+      </div>
+      <span *ngIf="!categories">Emtpy Category</span>
+    </div>
+  </div>
+</section>

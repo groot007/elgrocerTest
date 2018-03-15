@@ -1,0 +1,11 @@
+<div class="searchbar">
+  <form (submit)="onSubmit($event, searchInput.value)">
+    <input type="search" list="searchlist" #searchInput class="form-control" placeholder="Search Almaya Market...">
+    <a href="search-full-page.html" class="searchbarbtn"></a>
+    <datalist id="searchlist">
+      <select>
+        <option *ngFor="let item of topSearch" value="{{ item }}">{{ item }}</option>
+      </select>
+    </datalist>
+  </form>
+</div>

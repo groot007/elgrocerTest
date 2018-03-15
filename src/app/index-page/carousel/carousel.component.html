@@ -1,0 +1,33 @@
+<div id="carousel-example-generic" class="carousel slide" data-interval="false" >
+  <ngx-carousel
+    [inputs]="carouselBanner"
+    [moveToSlide]="currentStore"
+    (onMove)="onmoveFn($event)"
+    (afterCarouselViewed)="afterCarouselViewedFn($event)">
+
+    <ngx-item NgxCarouselItem class="bannerStyle" *ngFor="let item of stores; let i = index">
+      <img src="/assets/img/banner.jpg" alt="Banner">
+      <div class="carousel-caption">
+        <div class="store-tittle">
+          <img src="{{ item.photo_url }}" alt="Store Tittle">
+        </div>
+        <div class="store-subtittle">{{ item.company_name}}</div>
+        <div class="store-available"> Available in two hourse</div>
+      </div>
+
+    </ngx-item>
+
+    <a NgxCarouselPrev  class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+      <span class="slider-left-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a NgxCarouselNext class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+      <span class="slider-right-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+
+  </ngx-carousel>
+  <div class="col-md-4 col-sm-12 col-xs-12 col-md-offset-4 search-bar text-center">
+    <app-search-form></app-search-form>
+  </div>
+</div>

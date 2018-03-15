@@ -1,0 +1,49 @@
+<div class="col-lg-2 col-md-2 col-sm-2 hidden-xs text-right basket" [class.open]="isOpened">
+  <button (click)="showBasket()" class="button button-success button-md overflow-visible" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="basket-icon margin-right-sm"></span> <span class="hidden-sm hidden-xs">Basket</span>
+    <span *ngIf="basketItems.length" class="basket-item">{{ basketItems.length }}</span>
+  </button>
+  <div class="hidden-xs dropdown-menu stores-dropdown basket-dropdown" aria-labelledby="dropdownMenu3">
+    <div class="popup-header">
+      <div class="popup-icon basket-popup-icon"></div>
+      <h5>Basket</h5>
+      <span>{{ storeName }}</span>
+      <a aria-label="Close" data-dismiss="alert" class="popup-close" (click)="showBasket()"></a>
+    </div>
+    <div class="stores-list basket-scroll">
+      <ul>
+        <li *ngFor="let item of basketItems">
+          <div class="basket-item-img"> <img [src]="item.image_url" alt="product1"> </div>
+          <div class="basket-item-info">
+            <h6>{{ item.name }}</h6>
+            <ul>
+              <li>{{ item.size_unit }}</li>
+              <li>{{ item.price.price_full + ' ' + item.price.price_currency}}</li>
+              <li>Quantity:</li>
+              <li>{{ item.quantity }}</li>
+              <li>Total:</li>
+              <li>{{ getTotalPrice(item) }}</li>
+            </ul>
+            <div class="minus-plus label-success">
+              <button (click)="decreaseQuantity(item)" type="button" class="button button-xs minus" id="minus"></button>
+              <span>1</span>
+              <button (click)="increaseQuantity(item)" type="button" class="button button-xs plus"></button>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+    <div class="popup-footer">
+      <div class="basket-total">
+        <ul>
+          <li>Quantity:</li>
+          <li>{{ basketItems.length }} items</li>
+          <li>Total price:</li>
+          <li><span class="text-success">22.00 AED</span></li>
+        </ul>
+      </div>
+      <a href="checkout.html" class="anchor">CHECKOUT</a>
+    </div>
+  </div>
+</div>
