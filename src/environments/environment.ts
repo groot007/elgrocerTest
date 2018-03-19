@@ -9,5 +9,6 @@ export const environment = {
 
 
 export const links = {
+  main: 'http://el-grocer-staging-dev.herokuapp.com',
   addresses: 'http://el-grocer-staging-dev.herokuapp.com/api/v1/shopper_addresses.json'
 }

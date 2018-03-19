@@ -9,7 +9,7 @@
           <ul>
             <li>{{ item.description }}</li>
           </ul>
-          <a href="sub-categories.html" class="view-more hidden-xs text-success">View More</a>
+          <a [routerLink]="['/search']" [queryParams]="{searchQuery: '',retailerId: currentStore.id, categoryFilter: item.name}" class="view-more hidden-xs text-success">View More</a>
         </div>
       </div>
       <span *ngIf="!categories">Emtpy Category</span>

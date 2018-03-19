@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
 import {AddressesService} from '../shared/services/addresses.service';
 import {StoresService} from '../shared/services/stores.service';
 import {StoreModel} from '../shared/models/store.model';
+import {AddressModel} from '../shared/models/address.model';
 
 @Component({
   selector: 'app-index-page',
@@ -9,23 +10,12 @@ import {StoreModel} from '../shared/models/store.model';
   styleUrls: ['./index-page.component.css']
 })
 export class IndexPageComponent implements OnInit {
-  private stores: Array<StoreModel>;
-  public address: string;
 
-  constructor(private addressesService: AddressesService, private storesService: StoresService) {
+  constructor(private addressesService: AddressesService, private eRef: ElementRef) {
   }
 
   ngOnInit() {
-    this.addressesService.getDefaultAddress().then(
-      res => {
-        const conf = {
-            latitude: res.latitude,
-            longitude: res.longitude,
-          };
-        this.address = res.location_address;
-        this.storesService.getRetailers(conf).then(
-          data => { this.stores = data; }
-        );
-      });
+
   }
+
 }

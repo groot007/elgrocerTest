@@ -26,6 +26,11 @@ import {StickyHeaderDirective} from './shared/directives/sticky-header.directive
 import { CategoriesListComponent } from './search-page/categories-list/categories-list.component';
 import { ProductsComponent } from './search-page/products/products.component';
 import {BasketService} from './shared/services/basket.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { HeaderAddressComponent } from './shared/components/header-address/header-address.component';
+import {ProductsFilterPipe} from './shared/pipes/products-filter.pipe';
+
+
 
 const routes: Routes = [
   {path: '', component: IndexPageComponent},
@@ -48,10 +53,13 @@ const routes: Routes = [
     FooterComponent,
     StickyHeaderDirective,
     CategoriesListComponent,
-    ProductsComponent
+    ProductsComponent,
+    ProductsFilterPipe,
+    HeaderAddressComponent
   ],
   imports: [
     BrowserModule,
+    InfiniteScrollModule,
     HttpClientModule,
     NgxCarouselModule,
     RouterModule.forRoot(routes)

@@ -1,46 +1,58 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {BasketService} from '../../services/basket.service';
 import {StoresService} from '../../services/stores.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.css']
 })
-export class BasketComponent implements OnInit {
+export class BasketComponent implements OnInit, OnDestroy {
 
   isOpened = false;
   storeName: string;
+  basket;
   basketItems;
+  private subscription: Subscription;
 
-  constructor(private basketService: BasketService, private storeService: StoresService) { }
+  constructor(private eRef: ElementRef,
+              private basketService: BasketService,
+              private storeService: StoresService) {
+  }
+
+  // @HostListener('document:click', ['$event'])
+  // clickout(event) {
+  //   if (!this.eRef.nativeElement.contains(event.target)) {
+  //     this.isOpened = false;
+  //   }
+  // }
 
   ngOnInit() {
-    this.storeService.currentStore$.subscribe(data => {
-      if ( !data ) {
-        this.storeName = JSON.parse(localStorage.getItem('currentStore')).company_name;
-      } else {
+    this.subscription = this.storeService.currentStore$.subscribe(data => {
+      if (data) {
         this.storeName = data.company_name;
       }
     });
-    this.basketItems = this.basketService.getItems();
+    this.basket = this.basketService.getBasket();
+    this.basketItems = this.basket.items;
   }
 
-  getTotalPrice(item) {
-    const multiply = Math.round(item.price.price_full * item.quantity * 100) / 100;
-    return  multiply + ' ' + item.price.price_currency;
+  addItem(item) {
+    this.basketService.addItem(item);
   }
 
-  increaseQuantity(item) {
-    this.basketService.increaseQuantity(item);
-  }
-
-  decreaseQuantity(item) {
-    this.basketService.decreaseQuantity(item);
+  removeItem(item) {
+    this.basketService.removeItem(item);
   }
 
   showBasket() {
     this.isOpened = !this.isOpened;
   }
 
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

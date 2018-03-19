@@ -28,22 +28,13 @@ export class CategoriesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addressesService.getDefaultAddress().then(
-      (res: AddressModel) => {
-        const conf = {
-          latitude: res.latitude,
-          longitude: res.longitude,
-        };
-
-        this.address = res.location_address;
-        this.storesService.getRetailers(conf).then((stores: Array<StoreModel>) => {
-            this.storesService.currentStore$.subscribe(rez => {
-              this.categories = rez.categories;
-              this.storeName = rez.company_name;
-            });
-          }
-        );
-      });
+    this.storesService.currentStore$.subscribe((currentStore: StoreModel) => {
+      if (currentStore !== null) {
+        this.storeName = currentStore.company_name;
+        this.categories = currentStore.categories;
+        console.log(this.categories);
+      }
+    });
   }
 
   filterProducts($event, categoryName: string) {
@@ -64,7 +55,7 @@ export class CategoriesListComponent implements OnInit {
 
         this.router.navigate(['/search'], {
           queryParams: query
-          });
+        });
       });
 
   }

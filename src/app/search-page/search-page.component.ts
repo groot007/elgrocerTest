@@ -12,12 +12,8 @@ import {StoreModel} from '../shared/models/store.model';
   styleUrls: ['./search-page.component.css']
 })
 export class SearchPageComponent implements OnInit {
-
-  searchQuery: string;
-  searchItems;
   categories;
   storeName: string;
-  storeId: number;
   address: string;
 
   constructor(private route: ActivatedRoute,
@@ -26,42 +22,17 @@ export class SearchPageComponent implements OnInit {
               private storesService: StoresService) { }
 
   ngOnInit() {
-
-    this.route.queryParams
-      .subscribe(params => {
-        this.searchQuery = params.searchQuery;
-        this.storeId = +params.retailerId;
-        this.http
-          .post('http://el-grocer-staging-dev.herokuapp.com/api/v1/products/shopper/elastic_search.json'
-            , {
-              search_input: this.searchQuery,
-              page: 1,
-              retailer_id: this.storeId
-            })
-          .subscribe(res => {
-            this.searchItems = res['data'];
-          });
+      this.storesService.currentStore$.subscribe(rez => {
+        if (rez !== null) {
+          this.storeName = rez.company_name;
+        }
       });
 
-    this.addressesService.getDefaultAddress().then(
-      (res: AddressModel) => {
-        const conf = {
-          latitude: res.latitude,
-          longitude: res.longitude,
-        };
-        this.address = res.location_address;
-        this.storesService.getRetailers(conf).then((stores: Array<StoreModel>) => {
-            this.storesService.currentStore$.subscribe((data: StoreModel) => {
-              this.storesService.currentStore$.subscribe(rez => {
-                this.categories = rez.categories;
-                this.storeName = rez.company_name;
-              });
-            });
-          }
-        );
+      this.addressesService.address$.subscribe( rez => {
+        if (rez !== null) {
+          this.address = rez.location_address;
+        }
       });
-
-
   }
 
 }

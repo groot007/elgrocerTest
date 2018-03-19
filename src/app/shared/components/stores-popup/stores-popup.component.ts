@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {StoresService} from '../../services/stores.service';
 import {AddressesService} from '../../services/addresses.service';
 import {StoreModel} from '../../models/store.model';
 import {AddressModel} from '../../models/address.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
 
 
 @Component({
@@ -11,32 +12,32 @@ import {ActivatedRoute, Router} from '@angular/router';
   templateUrl: './stores-popup.component.html',
   styleUrls: ['./stores-popup.component.css']
 })
-export class StoresPopupComponent implements OnInit {
+export class StoresPopupComponent implements OnInit, OnDestroy {
 
   stores: Array<StoreModel>;
   isOpened = false;
   address: string;
+  private subscription: Subscription;
 
-  constructor(private router: Router,
+  constructor(private eRef: ElementRef,
+              private router: Router,
               private route: ActivatedRoute,
-              private storesService: StoresService,
-              private addressesService: AddressesService) {
+              private storesService: StoresService) {
   }
 
-  ngOnInit() {
-    this.addressesService.getDefaultAddress().then(
-      (res: AddressModel) => {
-        const conf = {
-          latitude: res.latitude,
-          longitude: res.longitude,
-        };
-        this.address = res.location_address;
+  // @HostListener('document:click', ['$event'])
+  // clickout(event) {
+  //   if (!this.eRef.nativeElement.contains(event.target)) {
+  //     this.isOpened = false;
+  //   }
+  // }
 
-        this.storesService.getRetailers(conf).then((stores: Array<StoreModel>) => {
-            this.stores = stores;
-          }
-        );
-      });
+  ngOnInit() {
+    this.subscription = this.storesService.stores$.subscribe( stores => {
+      if (stores !== null) {
+        this.stores = stores;
+      }
+    });
   }
 
   getPaymentMethod(arr: Array<any>) {
@@ -63,6 +64,12 @@ export class StoresPopupComponent implements OnInit {
 
   showStores() {
     this.isOpened = !this.isOpened;
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

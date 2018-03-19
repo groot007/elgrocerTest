@@ -1,7 +1,7 @@
 <div class="col-lg-2 col-md-2 col-sm-2 hidden-xs text-right basket" [class.open]="isOpened">
   <button (click)="showBasket()" class="button button-success button-md overflow-visible" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="basket-icon margin-right-sm"></span> <span class="hidden-sm hidden-xs">Basket</span>
-    <span *ngIf="basketItems.length" class="basket-item">{{ basketItems.length }}</span>
+    <span *ngIf="basket.totalQuantity" class="basket-item">{{ basket.totalQuantity }}</span>
   </button>
   <div class="hidden-xs dropdown-menu stores-dropdown basket-dropdown" aria-labelledby="dropdownMenu3">
     <div class="popup-header">
@@ -22,25 +22,28 @@
               <li>Quantity:</li>
               <li>{{ item.quantity }}</li>
               <li>Total:</li>
-              <li>{{ getTotalPrice(item) }}</li>
+              <li>{{ item.total_price }}</li>
             </ul>
             <div class="minus-plus label-success">
-              <button (click)="decreaseQuantity(item)" type="button" class="button button-xs minus" id="minus"></button>
+              <button (click)="removeItem(item)" type="button" class="button button-xs minus" id="minus"></button>
               <span>1</span>
-              <button (click)="increaseQuantity(item)" type="button" class="button button-xs plus"></button>
+              <button (click)="addItem(item)" type="button" class="button button-xs plus"></button>
             </div>
           </div>
         </li>
-
       </ul>
+      <div class="text-center" *ngIf="!basketItems.length">
+        <h2>Basket is empty</h2>
+
+      </div>
     </div>
-    <div class="popup-footer">
+    <div class="popup-footer" *ngIf="basketItems.length">
       <div class="basket-total">
         <ul>
           <li>Quantity:</li>
-          <li>{{ basketItems.length }} items</li>
+          <li>{{ basket.totalQuantity }} items</li>
           <li>Total price:</li>
-          <li><span class="text-success">22.00 AED</span></li>
+          <li><span class="text-success">{{ basket.totalPrice }} AED</span></li>
         </ul>
       </div>
       <a href="checkout.html" class="anchor">CHECKOUT</a>

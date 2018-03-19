@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {StoresService} from '../../shared/services/stores.service';
-import {AddressModel} from '../../shared/models/address.model';
-import {StoreModel} from '../../shared/models/store.model';
+import {Component, OnInit} from '@angular/core';
+
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
-import {AddressesService} from '../../shared/services/addresses.service';
 import {BasketService} from '../../shared/services/basket.service';
+import {StoresService} from '../../shared/services/stores.service';
 
 @Component({
   selector: 'app-products',
@@ -17,21 +15,30 @@ export class ProductsComponent implements OnInit {
   searchQuery: string;
   searchItems = [];
   categories;
-  storeName: string;
   storeId: number;
   address: string;
+  categoryFilter: string;
+  pageCounter = 1;
+  storeName: string;
+  isEmptyResponse = false;
 
   constructor(private route: ActivatedRoute,
+              private storeService: StoresService,
               private http: HttpClient,
-              private basketService: BasketService,
-              private addressesService: AddressesService,
-              private storesService: StoresService) { }
+              private basketService: BasketService) {
+  }
 
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
+        this.pageCounter = 1;
         this.searchQuery = params.searchQuery;
         this.storeId = +params.retailerId;
+        if (params.categoryFilter) {
+          this.categoryFilter = params.categoryFilter;
+        } else {
+          this.categoryFilter = '';
+        }
         this.http
           .post('http://el-grocer-staging-dev.herokuapp.com/api/v1/products/shopper/elastic_search.json'
             , {
@@ -40,18 +47,32 @@ export class ProductsComponent implements OnInit {
               retailer_id: this.storeId
             })
           .subscribe(res => {
-            if (params.categoryFilter) {
-              this.searchItems = res['data'].filter( el => el._source.category_name[0] === params.categoryFilter);
-            } else {
-              this.searchItems = res['data'];
-            }
+            this.searchItems = res['data'];
           });
       });
   }
 
   addToCart($event, item) {
     $event.preventDefault();
-    const newItem = new Object(item);
+    const newItem = Object.assign({}, item);
     this.basketService.addItem(newItem);
+  }
+
+  onScrollDown() {
+    this.pageCounter++;
+    this.http
+      .post('http://el-grocer-staging-dev.herokuapp.com/api/v1/products/shopper/elastic_search.json'
+        , {
+          search_input: this.searchQuery,
+          page: this.pageCounter,
+          retailer_id: this.storeId
+        })
+      .subscribe((res: Array<any>) => {
+        this.searchItems = this.searchItems.concat(res['data']);
+        if (!res['data'].length) {
+          this.isEmptyResponse = true;
+        }
+      });
+
   }
 }

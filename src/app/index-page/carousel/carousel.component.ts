@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {StoresService} from '../../shared/services/stores.service';
 import {NgxCarousel, NgxCarouselStore} from 'ngx-carousel';
-import {AddressesService} from '../../shared/services/addresses.service';
 import {StoreModel} from '../../shared/models/store.model';
-import {current} from 'codelyzer/util/syntaxKind';
+import {Subscription} from 'rxjs/Subscription';
 
 
 @Component({
@@ -11,32 +10,28 @@ import {current} from 'codelyzer/util/syntaxKind';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css']
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnDestroy {
 
   public stores: Array<StoreModel>;
   public carouselBanner: NgxCarousel;
   public currentStore = 0;
+  private subscription: Subscription;
 
-  constructor(private storesService: StoresService, private addressesService: AddressesService) {
+  constructor(private storesService: StoresService) {
   }
 
 
   ngOnInit() {
-    this.addressesService.getDefaultAddress().then(
-      res => {
-        const conf = {
-          latitude: res.latitude,
-          longitude: res.longitude,
-        };
-        this.storesService.getRetailers(conf).then(
-          data => {
-            this.stores = data.filter(el => el.is_opened);
-            this.storesService.currentStore$.subscribe(rez => {
-              this.currentStore = this.stores.findIndex(el => el.id === rez.id);
-            });
+    this.storesService.stores$.subscribe( stores => {
+      if (stores !== null) {
+        this.stores = stores.filter( el => el.is_opened);
+        this.storesService.currentStore$.subscribe((currentStore: StoreModel) => {
+          if (currentStore !== null) {
+            this.currentStore = stores.findIndex(el => el.id === currentStore.id);
           }
-        );
-      });
+        });
+      }
+    });
 
 
     this.carouselBanner = {
@@ -96,5 +91,9 @@ export class CarouselComponent implements OnInit {
     this.storesService.setCurrentStore(this.stores[data.currentSlide]);
   }
 
-
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

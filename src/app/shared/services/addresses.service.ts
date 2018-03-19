@@ -1,15 +1,24 @@
 import {Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../auth/auth.service';
 import {links} from '../../../environments/environment';
+import {StoreModel} from '../models/store.model';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {AddressModel} from '../models/address.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Injectable()
 export class AddressesService {
 
   private addresses = null;
-  private defaultAddress = null;
+  public address$: BehaviorSubject<AddressModel> = new BehaviorSubject<AddressModel>(null);
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private http: HttpClient,
+              private auth: AuthService) {
+    this.getAddresses().then(address => {
+      const defaultAddress = address.filter(data => data['default_address'] === true)[0];
+      this.address$.next(defaultAddress);
+    });
   }
 
   getAddresses() {
@@ -36,23 +45,12 @@ export class AddressesService {
     return this.addresses;
   }
 
-  getDefaultAddress() {
-    if (this.defaultAddress) {
-      return this.defaultAddress;
-    }
-
-    this.defaultAddress = new Promise((resolve, reject) => {
-        this.getAddresses().then(
-          (result: any) => {
-            resolve(result.filter(data => data['default_address'] === true)[0]);
-          },
-          error => {
-            console.log(error.message);
-            resolve({});
-          }
-        );
+  changeAddress(address) {
+    this.getAddresses().then((rez: Array<AddressModel>) => {
+      const newAddress = rez.filter((el: AddressModel) => el.id === address);
+      this.address$.next(newAddress[0]);
     });
 
-    return this.defaultAddress;
   }
+
 }
