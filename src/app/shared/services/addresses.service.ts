@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../auth/auth.service';
-import {links} from '../../../environments/environment';
-import {StoreModel} from '../models/store.model';
+import {LINKS} from '../../../environments/environment';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AddressModel} from '../models/address.model';
-import {ActivatedRoute, Router} from '@angular/router';
+
 
 @Injectable()
 export class AddressesService {
@@ -31,7 +30,7 @@ export class AddressesService {
     }
 
     this.addresses = new Promise((resolve, reject) => {
-      this.http.get(links.addresses).subscribe(
+      this.http.get(LINKS.addresses).subscribe(
         (result: any) => {
           resolve(result.data.addresses);
         },

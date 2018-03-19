@@ -25,6 +25,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
     this.storesService.stores$.subscribe( stores => {
       if (stores !== null) {
         this.stores = stores.filter( el => el.is_opened);
+        console.log(this.stores);
         this.storesService.currentStore$.subscribe((currentStore: StoreModel) => {
           if (currentStore !== null) {
             this.currentStore = stores.findIndex(el => el.id === currentStore.id);

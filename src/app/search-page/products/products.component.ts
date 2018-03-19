@@ -29,6 +29,7 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.route.queryParams
       .subscribe(params => {
         this.pageCounter = 1;
@@ -52,11 +53,6 @@ export class ProductsComponent implements OnInit {
       });
   }
 
-  addToCart($event, item) {
-    $event.preventDefault();
-    const newItem = Object.assign({}, item);
-    this.basketService.addItem(newItem);
-  }
 
   onScrollDown() {
     this.pageCounter++;

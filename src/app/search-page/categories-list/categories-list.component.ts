@@ -32,7 +32,6 @@ export class CategoriesListComponent implements OnInit {
       if (currentStore !== null) {
         this.storeName = currentStore.company_name;
         this.categories = currentStore.categories;
-        console.log(this.categories);
       }
     });
   }

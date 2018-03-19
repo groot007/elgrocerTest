@@ -29,12 +29,16 @@ import {BasketService} from './shared/services/basket.service';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HeaderAddressComponent } from './shared/components/header-address/header-address.component';
 import {ProductsFilterPipe} from './shared/pipes/products-filter.pipe';
+import { ProductItemComponent } from './shared/components/product-item/product-item.component';
+import { CategoryPageComponent } from './category-page/category-page.component';
+import {OwlModule} from 'ngx-owl-carousel';
 
 
 
 const routes: Routes = [
   {path: '', component: IndexPageComponent},
   {path: 'search', component: SearchPageComponent},
+  {path: 'category', component: CategoryPageComponent},
   {path: 'search/:searchQuery', component: SearchPageComponent},
 ];
 
@@ -55,13 +59,16 @@ const routes: Routes = [
     CategoriesListComponent,
     ProductsComponent,
     ProductsFilterPipe,
-    HeaderAddressComponent
+    HeaderAddressComponent,
+    ProductItemComponent,
+    CategoryPageComponent
   ],
   imports: [
     BrowserModule,
     InfiniteScrollModule,
     HttpClientModule,
     NgxCarouselModule,
+    OwlModule,
     RouterModule.forRoot(routes)
   ],
   providers: [

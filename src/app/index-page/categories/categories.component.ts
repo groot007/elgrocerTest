@@ -18,14 +18,14 @@ import {Subscription} from 'rxjs/Subscription';
 export class CategoriesComponent implements OnInit, OnDestroy {
 
   private currentStore: StoreModel;
-  private subsciption: Subscription;
+  private subscription: Subscription;
   public categories: Array<CategoryModel>;
 
   constructor(private storesService: StoresService,
               private _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.subsciption = this.storesService.currentStore$.subscribe((data2: StoreModel) => {
+    this.subscription = this.storesService.currentStore$.subscribe((data2: StoreModel) => {
       if (data2 !== null) {
         this.currentStore = data2;
         this.categories = this.currentStore.categories;
@@ -38,8 +38,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subsciption) {
-      this.subsciption.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }
