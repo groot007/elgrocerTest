@@ -11,7 +11,7 @@ import {AddressModel} from '../shared/models/address.model';
 })
 export class IndexPageComponent implements OnInit {
 
-  constructor(private addressesService: AddressesService, private eRef: ElementRef) {
+  constructor() {
   }
 
   ngOnInit() {

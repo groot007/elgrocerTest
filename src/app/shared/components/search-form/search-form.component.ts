@@ -27,7 +27,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.storesService.currentStore$.subscribe((currentStore: StoreModel) => {
-      if (currentStore !== null) {
+      if (currentStore) {
         this.topSearch = currentStore.top_searches;
         this.retailerId = currentStore.id;
       }

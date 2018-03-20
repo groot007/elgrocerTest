@@ -25,12 +25,12 @@ export class StoresPopupComponent implements OnInit, OnDestroy {
               private storesService: StoresService) {
   }
 
-  // @HostListener('document:click', ['$event'])
-  // clickout(event) {
-  //   if (!this.eRef.nativeElement.contains(event.target)) {
-  //     this.isOpened = false;
-  //   }
-  // }
+  @HostListener('document:mouseup', ['$event'])
+  clickout(event) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.isOpened = false;
+    }
+  }
 
   ngOnInit() {
     this.subscription = this.storesService.stores$.subscribe( stores => {

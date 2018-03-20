@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
-import {BasketService} from '../../shared/services/basket.service';
 import {StoresService} from '../../shared/services/stores.service';
 
 @Component({
@@ -24,8 +23,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private storeService: StoresService,
-              private http: HttpClient,
-              private basketService: BasketService) {
+              private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -35,6 +33,7 @@ export class ProductsComponent implements OnInit {
         this.pageCounter = 1;
         this.searchQuery = params.searchQuery;
         this.storeId = +params.retailerId;
+
         if (params.categoryFilter) {
           this.categoryFilter = params.categoryFilter;
         } else {

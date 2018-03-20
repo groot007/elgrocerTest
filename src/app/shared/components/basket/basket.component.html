@@ -1,4 +1,4 @@
-<div class="col-lg-2 col-md-2 col-sm-2 hidden-xs text-right basket" [class.open]="isOpened">
+<div  class="col-lg-2 col-md-2 col-sm-2 hidden-xs text-right basket" [class.open]="isOpened">
   <button (click)="showBasket()" class="button button-success button-md overflow-visible" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <span class="basket-icon margin-right-sm"></span> <span class="hidden-sm hidden-xs">Basket</span>
     <span *ngIf="basket.totalQuantity" class="basket-item">{{ basket.totalQuantity }}</span>
@@ -25,7 +25,7 @@
               <li>{{ item.total_price }}</li>
             </ul>
             <div class="minus-plus label-success">
-              <button (click)="removeItem(item)" type="button" class="button button-xs minus" id="minus"></button>
+              <button (click)="removeItem($event, item)" type="button" class="button button-xs minus" id="minus"></button>
               <span>1</span>
               <button (click)="addItem(item)" type="button" class="button button-xs plus"></button>
             </div>

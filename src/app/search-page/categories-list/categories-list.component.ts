@@ -14,7 +14,6 @@ import {AddressesService} from '../../shared/services/addresses.service';
 export class CategoriesListComponent implements OnInit {
 
   searchQuery: string;
-  searchItems;
   categories;
   storeName: string;
   storeId: number;

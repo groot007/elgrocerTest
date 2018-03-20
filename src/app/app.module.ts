@@ -32,7 +32,7 @@ import {ProductsFilterPipe} from './shared/pipes/products-filter.pipe';
 import { ProductItemComponent } from './shared/components/product-item/product-item.component';
 import { CategoryPageComponent } from './category-page/category-page.component';
 import {OwlModule} from 'ngx-owl-carousel';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 const routes: Routes = [
@@ -69,6 +69,7 @@ const routes: Routes = [
     HttpClientModule,
     NgxCarouselModule,
     OwlModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot(routes)
   ],
   providers: [

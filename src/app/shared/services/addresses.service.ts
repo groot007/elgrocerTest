@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../auth/auth.service';
-import {LINKS} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AddressModel} from '../models/address.model';
 
@@ -30,7 +30,7 @@ export class AddressesService {
     }
 
     this.addresses = new Promise((resolve, reject) => {
-      this.http.get(LINKS.addresses).subscribe(
+      this.http.get(environment['addressesLink']).subscribe(
         (result: any) => {
           resolve(result.data.addresses);
         },

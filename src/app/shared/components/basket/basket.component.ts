@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs/Subscription';
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
-  styleUrls: ['./basket.component.css']
+  styleUrls: ['./basket.component.css'],
 })
 export class BasketComponent implements OnInit, OnDestroy {
 
@@ -16,17 +16,17 @@ export class BasketComponent implements OnInit, OnDestroy {
   basketItems;
   private subscription: Subscription;
 
+  @HostListener('document:mouseup', ['$event'])
+  click(event) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.isOpened = false;
+    }
+  }
+
   constructor(private eRef: ElementRef,
               private basketService: BasketService,
               private storeService: StoresService) {
   }
-
-  // @HostListener('document:click', ['$event'])
-  // clickout(event) {
-  //   if (!this.eRef.nativeElement.contains(event.target)) {
-  //     this.isOpened = false;
-  //   }
-  // }
 
   ngOnInit() {
     this.subscription = this.storeService.currentStore$.subscribe(data => {
@@ -42,7 +42,7 @@ export class BasketComponent implements OnInit, OnDestroy {
     this.basketService.addItem(item);
   }
 
-  removeItem(item) {
+  removeItem($event, item) {
     this.basketService.removeItem(item);
   }
 

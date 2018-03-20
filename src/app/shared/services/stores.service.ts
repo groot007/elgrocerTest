@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {StoreModel} from '../models/store.model';
 import {AddressesService} from './addresses.service';
-import { LINKS } from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class StoresService {
   getRetailers(conf) {
     this.promise = new Promise((resolve, reject) => {
       this.http
-        .get(LINKS.main + '/api/v3/retailers/all.json', {
+        .get(environment['mainLink'] + '/api/v3/retailers/all.json', {
           params: conf,
         }).subscribe(
         function (result: any) {

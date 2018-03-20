@@ -3,12 +3,11 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
+
+
 export const environment = {
-  production: false
+  production: false,
+  mainLink: 'http://el-grocer-staging-dev.herokuapp.com',
+  addressesLink: 'http://el-grocer-staging-dev.herokuapp.com/api/v1/shopper_addresses.json'
 };
 
-
-export const LINKS = {
-  main: 'http://el-grocer-staging-dev.herokuapp.com',
-  addresses: 'http://el-grocer-staging-dev.herokuapp.com/api/v1/shopper_addresses.json'
-}
